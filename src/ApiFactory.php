@@ -16,6 +16,7 @@ class ApiFactory {
             'format' => 'JSON',
             'idSite' => $config->get('site_id'),
             'token_auth' => $config->get('token'),
+            'filter_limit' => '-1',
         ];
         return $config->get('endpoint') . '?' . http_build_query($params);
     }
