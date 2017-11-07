@@ -28,9 +28,12 @@ class PiwikActionsViewForm extends FormBase {
         'end_date' => $query->get('end_date'),
     ];
 
+    if (!empty($storage) || $query->get('op') == 'Export') {
+        $actions = \Drupal::service('piwik_actions.visits')->getActions($storage);
+    }
+
     if ($query->get('op') == 'Export') {
         // export to csv
-        $actions = \Drupal::service('piwik_actions.visits')->getActions($storage);
         $this->csvExport($actions);
         exit();
     }
@@ -69,8 +72,6 @@ class PiwikActionsViewForm extends FormBase {
     ];
 
     if (!empty($storage)) {
-        $actions = \Drupal::service('piwik_actions.visits')->getActions($storage);
-
         $form['output'] = [
             '#type' => 'table',
         ];

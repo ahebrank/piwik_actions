@@ -39,6 +39,9 @@ class Visits {
                 $rows[] = $row_data;
             }
         }
+
+        \Drupal::service('module_handler')->alter('piwik_actions_data', $rows);
+
         return $rows;
     }
 
