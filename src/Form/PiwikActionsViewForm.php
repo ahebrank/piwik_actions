@@ -86,9 +86,7 @@ class PiwikActionsViewForm extends FormBase {
         foreach ($actions as $i => $action) {
             foreach ($header as $j => $k) {
                 $v = isset($action[$k])? $action[$k] : '';
-                $form['output'][$i][$k] = [
-                    '#plain_text' => $v,
-                ];
+                $form['output'][$i][$k] = is_array($v)? $v : ['#plain_text' => $v];
             }
         }
         $form['output']['#header'] = $header;
