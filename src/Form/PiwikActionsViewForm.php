@@ -123,6 +123,11 @@ class PiwikActionsViewForm extends FormBase {
         $row = [];
         foreach ($header as $j => $k) {
             $v = isset($action[$k])? $action[$k] : '';
+            if (is_array($v)) {
+                // assume it's a render array; render and convert to text
+                $rendered = \Drupal::service('renderer')->render($v);
+                $v = \Drupal\Core\Mail\MailFormatHelper::htmlToText($rendered);
+            }
             $row[] = $v;
         }
         fputcsv($output, $row);
