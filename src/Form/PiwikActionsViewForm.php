@@ -124,7 +124,7 @@ class PiwikActionsViewForm extends FormBase {
             if (is_array($v)) {
                 // assume it's a render array; render and convert to text
                 $rendered = \Drupal::service('renderer')->render($v);
-                $v = \Drupal\Core\Mail\MailFormatHelper::htmlToText($rendered);
+                $v = strip_tags($rendered);
             }
             $row[] = $v;
         }
