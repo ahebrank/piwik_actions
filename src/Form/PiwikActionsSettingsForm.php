@@ -5,6 +5,9 @@ namespace Drupal\piwik_actions\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
+/**
+ *
+ */
 class PiwikActionsSettingsForm extends ConfigFormBase {
 
   /**
@@ -18,8 +21,8 @@ class PiwikActionsSettingsForm extends ConfigFormBase {
    * Gets the configuration names that will be editable.
    *
    * @return array
-   * An array of configuration object names that are editable if called in
-   * conjunction with the trait's config() method.
+   *   An array of configuration object names that are editable if called in
+   *   conjunction with the trait's config() method.
    */
   protected function getEditableConfigNames() {
     return ['piwik_actions.settings'];
@@ -30,15 +33,15 @@ class PiwikActionsSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $admin_configurations = $this->config('piwik_actions.settings');
-    $form['endpoint'] = [ 
-        '#type' => 'textfield',
-        '#title' => t('Piwik API endpoint URL'),
-        '#default_value' => $admin_configurations->get('endpoint') ? $admin_configurations->get('endpoint') : '',
-        '#size' => 60,
-        '#maxlength' => 60,
-        '#required' => TRUE,
-      ];
-    $form['token'] = [ 
+    $form['endpoint'] = [
+      '#type' => 'textfield',
+      '#title' => t('Piwik API endpoint URL'),
+      '#default_value' => $admin_configurations->get('endpoint') ? $admin_configurations->get('endpoint') : '',
+      '#size' => 60,
+      '#maxlength' => 60,
+      '#required' => TRUE,
+    ];
+    $form['token'] = [
       '#type' => 'textfield',
       '#title' => t('Piwik API token'),
       '#default_value' => $admin_configurations->get('token') ? $admin_configurations->get('token') : '',
@@ -47,12 +50,12 @@ class PiwikActionsSettingsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
     $form['site_id'] = [
-        '#type' => 'textfield',
-        '#title' => t('Piwik API site ID'),
-        '#default_value' => $admin_configurations->get('site_id') ? $admin_configurations->get('site_id') : '',
-        '#size' => 60,
-        '#maxlength' => 60,
-        '#required' => TRUE,
+      '#type' => 'textfield',
+      '#title' => t('Piwik API site ID'),
+      '#default_value' => $admin_configurations->get('site_id') ? $admin_configurations->get('site_id') : '',
+      '#size' => 60,
+      '#maxlength' => 60,
+      '#required' => TRUE,
     ];
     return parent::buildForm($form, $form_state);
   }
@@ -70,7 +73,7 @@ class PiwikActionsSettingsForm extends ConfigFormBase {
     $config = $this->config('piwik_actions.settings');
     foreach ($config_fields as $config_field) {
       $config->set($config_field, $config_values[$config_field])
-          ->save();
+        ->save();
     }
     parent::submitForm($form, $form_state);
   }
