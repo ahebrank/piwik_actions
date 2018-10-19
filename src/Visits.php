@@ -23,6 +23,8 @@ class Visits {
     $visits = $this->getLastVisitsDetails($filters['start_date'], $filters['end_date']);
     $action_type = isset($filters['action']) ? $filters['action'] : NULL;
     $rows = [];
+    $base_url = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
+
     foreach ($visits as $visit) {
       $visit_details = [];
       foreach ($visit['customVariables'] as $i => $var) {
@@ -36,7 +38,7 @@ class Visits {
           continue;
         }
         $row_data = [
-          'url' => $this->removeBaseUrl($action['url']),
+          'url' => $this->removeBaseUrl($action['url'], $base_url),
           'time' => date('Y-m-d g:ia', $action['timestamp']),
         ] + $visit_details;
         $rows[] = $row_data;
@@ -82,8 +84,7 @@ class Visits {
   /**
    * Remove the base URL if it's there.
    */
-  private function removeBaseUrl($url) {
-    $base = Url::fromRoute('<front>', [], ['absolute' => TRUE]);
+  private function removeBaseUrl($url, $base) {
     $base = rtrim($base, '/');
     if (strpos($url, $base) === 0) {
       $url = str_replace($base, "", $url);
