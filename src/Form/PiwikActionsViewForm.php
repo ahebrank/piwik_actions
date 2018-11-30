@@ -33,6 +33,10 @@ class PiwikActionsViewForm extends FormBase {
 
     if (!empty($storage) || $query->get('op') == 'Export') {
       $actions = \Drupal::service('piwik_actions.visits')->getActions($storage);
+
+      if ($actions === FALSE) {
+        drupal_set_message($this->t('Problem retrieving data from analytics service'), 'error');
+      }
     }
 
     if ($query->get('op') == 'Export') {
@@ -74,7 +78,7 @@ class PiwikActionsViewForm extends FormBase {
       '#default_value' => t('Export'),
     ];
 
-    if (!empty($storage)) {
+    if (!empty($storage) || $actions) {
       $form['output'] = [
         '#type' => 'table',
       ];

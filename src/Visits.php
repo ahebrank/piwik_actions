@@ -21,6 +21,9 @@ class Visits {
    */
   public function getActions($filters) {
     $visits = $this->getLastVisitsDetails($filters['start_date'], $filters['end_date']);
+    if (!$visits) {
+      return FALSE;
+    }
     $action_type = isset($filters['action']) ? $filters['action'] : NULL;
     $rows = [];
     $base_url = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
@@ -77,7 +80,13 @@ class Visits {
    */
   private function getJson($url) {
     $client = \Drupal::httpClient();
-    $response = $client->get($url);
+    try {
+      $response = $client->get($url);
+    }
+    catch (\GuzzleHttp\Exception\RequestException $e) {
+      drupal_set_message($e->getMessage(), 'error');
+      return FALSE;
+    }
     return json_decode($response->getBody(), TRUE);
   }
 
