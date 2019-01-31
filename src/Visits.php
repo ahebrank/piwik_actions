@@ -30,21 +30,25 @@ class Visits {
 
     foreach ($visits as $visit) {
       $visit_details = [];
-      foreach ($visit['customVariables'] as $i => $var) {
-        $key = 'customVariableName' . $i;
-        $val = 'customVariableValue' . $i;
-        $visit_details[$var[$key]] = $var[$val];
-      }
-      foreach ($visit['actionDetails'] as $action) {
-        // Filter action.
-        if ($action_type && $action['type'] != $action_type) {
-          continue;
+      if (isset($visit['customVariables']) && is_array($visit['customVariables'])) {
+        foreach ($visit['customVariables'] as $i => $var) {
+          $key = 'customVariableName' . $i;
+          $val = 'customVariableValue' . $i;
+          $visit_details[$var[$key]] = $var[$val];
         }
-        $row_data = [
-          'url' => $this->removeBaseUrl($action['url'], $base_url),
-          'time' => date('Y-m-d g:ia', $action['timestamp']),
-        ] + $visit_details;
-        $rows[] = $row_data;
+      }
+      if (isset($visit['actionDetails']) && is_array($visit['actionDetails'])) {
+        foreach ($visit['actionDetails'] as $action) {
+          // Filter action.
+          if ($action_type && $action['type'] != $action_type) {
+            continue;
+          }
+          $row_data = [
+            'url' => $this->removeBaseUrl($action['url'], $base_url),
+            'time' => date('Y-m-d g:ia', $action['timestamp']),
+          ] + $visit_details;
+          $rows[] = $row_data;
+        }
       }
     }
 
