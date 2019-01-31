@@ -126,10 +126,11 @@ class PiwikActionsViewForm extends FormBase {
         }
       }
     }
+    sort($header);
     fputcsv($output, $header);
     foreach ($actions as $i => $action) {
       $row = [];
-      foreach ($header as $j => $k) {
+      foreach ($header as $k) {
         $v = isset($action[$k]) ? $action[$k] : '';
         if (is_array($v)) {
           // Assume it's a render array; render and convert to text.
