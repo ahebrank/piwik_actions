@@ -2,6 +2,7 @@
 
 namespace Drupal\piwik_actions;
 
+use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\Url;
 
 /**
@@ -87,7 +88,7 @@ class Visits {
     try {
       $response = $client->get($url);
     }
-    catch (\GuzzleHttp\Exception\RequestException $e) {
+    catch (RequestException $e) {
       drupal_set_message($e->getMessage(), 'error');
       return FALSE;
     }
